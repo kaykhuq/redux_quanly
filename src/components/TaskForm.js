@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions/index';
 
 class TaskForm extends Component {
     constructor(props) {
@@ -35,26 +37,21 @@ class TaskForm extends Component {
         }
         // console.log(nextProps);
     }
-    onCloseForm = () => {
-        this.props.onCloseForm();
-    }
+   
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
         var value = target.value;
-        if (name === "status") {
-            value = target.value === 'true' ? true : false;
-        }
         this.setState({
             [name]: value
         })
     }
     onSubmit = (e) => {
         e.preventDefault();
-        this.props.onSubmit(this.state);
+        this.props.onAddTask(this.state); // len store de them vao
         // cancel and close form
         this.onClear();
-        this.onCloseForm();
+        this.props.onCloseForm();
     }
     onClear = () => {
         this.setState({
@@ -71,7 +68,7 @@ class TaskForm extends Component {
                         <h3 className="panel-title">
                             {id ? "Cập nhật" : "Thêm"} công việc
                                     <span
-                                className="fa fa-times-circle text-right" onClick={this.onCloseForm}>
+                                className="fa fa-times-circle text-right" onClick={this.props.onCloseForm}>
                             </span>
                         </h3>
                     </div>
@@ -116,5 +113,19 @@ class TaskForm extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
 
-export default TaskForm;
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onAddTask: (task) => {
+            dispatch(actions.addTask(task));
+        },
+        onCloseForm: () => {
+            dispatch(actions.closeForm())
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);
