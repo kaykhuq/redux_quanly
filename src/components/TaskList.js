@@ -7,7 +7,6 @@ class TaskList extends Component {
         this.state = {
             filterName: '',
             filterStatus: -1 // all:-1 , active :1 , deactive: 0
-
         }
     }
 
@@ -20,12 +19,9 @@ class TaskList extends Component {
             name === 'filterName' ? value : this.state.filterName,
             name === 'filterStatus' ? value : this.state.filterStatus,
         );
-
         this.setState({
             [name]: value
         });
-
-
     }
     render() {
         var { tasks } = this.props;
@@ -34,10 +30,7 @@ class TaskList extends Component {
             return <TaskItem
                 key={task.id}
                 task={task}
-                index={index}
-                onUpdate={this.props.onUpdate}
-
-            />
+                index={index}/>
         })
         return (
             <div className="row mt-15">
@@ -60,26 +53,22 @@ class TaskList extends Component {
                                         className="form-control"
                                         name="filterName"
                                         value={filterName}
-                                        onChange={this.onhandleChange}
-                                    />
+                                        onChange={this.onhandleChange}/>
                                 </td>
                                 <td>
                                     <select
                                         className="form-control"
                                         name="filterStatus"
                                         value={filterStatus}
-                                        onChange={this.onhandleChange}
-                                    >
+                                        onChange={this.onhandleChange}>
                                         <option value={-1}>Tất cả</option>
                                         <option value={0}>Ẩn</option>
                                         <option value={1}>Kích hoạt</option>
                                     </select>
                                 </td>
                                 <td></td>
-
                             </tr>
                             {elemTask}
-
                         </tbody>
                     </table>
                 </div>

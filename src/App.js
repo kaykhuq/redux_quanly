@@ -22,35 +22,6 @@ class App extends Component {
     }
   }
 
-  // onToggleForm = () => {
-  //   // if (this.state.isDisplayForm && this.state.taskEditing !== null) {
-  //   //   this.setState({
-  //   //     taskEditing: null
-  //   //   });
-  //   // } else {
-  //   //   this.setState({
-  //   //     isDisplayForm: true,
-  //   //     taskEditing: null
-  //   //   });
-  //   // }
-  //   this.props.onToggleForm();
-  // }
-
-
-  // onUpdateStatus = (id) => {
-  //   var { tasks } = this.state;
-  //   var index = this.findIndex(id);
-  //   // var index = _.findIndex(tasks, (task) => {
-  //   //   return task.id === id;
-  //   // })
-  //   if (index !== -1) {
-  //     tasks[index].status = !tasks[index].status;
-  //     this.setState({
-  //       tasks: tasks
-  //     })
-  //     localStorage.setItem('tasks', JSON.stringify(tasks));
-  //   }
-  // }
   findIndex = (id) => {
     var result = -1;
     var { tasks } = this.state;
@@ -60,22 +31,6 @@ class App extends Component {
     })
     return result;
   }
-  // onDelete = (id) => {
-  //   var { tasks } = this.state;
-  //   var index = this.findIndex(id);
-  //   // var index = _.findIndex(tasks, (task) => {
-  //   //   return task.id === id;
-  //   // });
-  //   if (index !== -1) {
-  //     tasks.splice(index, 1);
-  //     this.setState({
-  //       tasks: tasks
-  //     })
-  //     // localStorage.setItem('tasks', JSON.stringify(tasks));
-  //   }
-  //   this.props.onCloseForm();
-  //   console.log(index);
-  // }
 
   onShowForm = () => {
     this.setState({
@@ -86,10 +41,6 @@ class App extends Component {
   onUpdate = (id) => {
     var { tasks } = this.state;
     var index = this.findIndex(id);
-    // var index = _.findIndex(tasks, (task) => {
-    //   return task.id === id;
-    // });
-
     var taskEditing = tasks[index];
     this.setState({
       taskEditing: taskEditing
@@ -159,11 +110,7 @@ class App extends Component {
     //     return 0;
     //   });
     // }
-    var elemTaskForm = isDisplayForm ?
-      <TaskForm
-        task={taskEditing}
-      />
-      : '';
+
     return (
       <div className="container">
         <div className="text-center">
@@ -171,7 +118,7 @@ class App extends Component {
         </div>
         <div className="row">
           {/* Form */}
-          {elemTaskForm}
+          <TaskForm task={taskEditing} />
 
           <div className={isDisplayForm ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
             <button type="button" className="btn btn-primary" onClick={this.props.onToggleForm}>
@@ -188,7 +135,6 @@ class App extends Component {
             {/* List */}
             <TaskList
               // tasks={tasks}
-              onUpdate={this.onUpdate}
               onFilter={this.onFilter}
             />
           </div>
@@ -204,13 +150,13 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    onToggleForm:()=>{
+    onToggleForm: () => {
       dispatch(actions.toggleForm())
     },
     onCloseForm: () => {
       dispatch(actions.closeForm())
-  },
-    
+    },
+
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

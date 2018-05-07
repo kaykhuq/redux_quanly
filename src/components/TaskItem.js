@@ -11,7 +11,7 @@ class TaskItem extends Component {
         this.props.onCloseForm();
     }
     onUpdate = () => {
-        this.props.onUpdate(this.props.task.id);
+        this.props.onEditTask();
     }
     showStatusElement() {
         return (
@@ -60,6 +60,9 @@ const mapDispatchToProps = (dispatch, props) => {
         onCloseForm: () => {
             dispatch(actions.closeForm())
         },
+        onEditTask:(task)=>{
+            dispatch(actions.editTask(task))
+        }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TaskItem);

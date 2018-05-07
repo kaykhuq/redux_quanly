@@ -37,7 +37,7 @@ class TaskForm extends Component {
         }
         // console.log(nextProps);
     }
-   
+
     onChange = (e) => {
         var target = e.target;
         var name = target.name;
@@ -60,13 +60,13 @@ class TaskForm extends Component {
         })
     }
     render() {
-        var { id } = this.state;
+        if(!this.props.isDisplayForm) return '';
         return (
             <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div className="panel panel-warning">
                     <div className="panel-heading">
                         <h3 className="panel-title">
-                            {id ? "Cập nhật" : "Thêm"} công việc
+                            {this.state.id ? "Cập nhật" : "Thêm"} công việc
                                     <span
                                 className="fa fa-times-circle text-right" onClick={this.props.onCloseForm}>
                             </span>
@@ -115,7 +115,7 @@ class TaskForm extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-
+        isDisplayForm: state.isDisplayForm
     }
 }
 const mapDispatchToProps = (dispatch, props) => {
