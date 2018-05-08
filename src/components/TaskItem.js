@@ -10,7 +10,7 @@ class TaskItem extends Component {
         // dispatch(actions.deleteTask
         this.props.onCloseForm();
     }
-    onUpdate = () => {
+    onEditTask = () => {
         this.props.onOpenForm();
         this.props.onEditTask(this.props.task);
     }
@@ -34,7 +34,7 @@ class TaskItem extends Component {
 
                 </td>
                 <td className="text-center">
-                    <button type="button" className="btn btn-warning" onClick={this.onUpdate}>
+                    <button type="button" className="btn btn-warning" onClick={this.onEditTask}>
                         <span className="fa fa-pencil mr-5"></span> Sửa
                     </button>&nbsp;
                     <button type="button" className="btn btn-danger" onClick={this.onDelete}>

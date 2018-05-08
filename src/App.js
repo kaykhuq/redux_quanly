@@ -10,58 +10,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskEditing: null,
-      filters: {
-        name: '',
-        status: -1
-      },
-      keyword: '',
       sortBy: '',
       sortValue: ''
-
     }
-  }
-
-  findIndex = (id) => {
-    var result = -1;
-    var { tasks } = this.state;
-    tasks.forEach((task, index) => {
-      if (task.id === id)
-        result = index;
-    })
-    return result;
-  }
-
-  onShowForm = () => {
-    this.setState({
-      isDisplayForm: true
-    })
-  }
-
-  onUpdate = (id) => {
-    var { tasks } = this.state;
-    var index = this.findIndex(id);
-    var taskEditing = tasks[index];
-    this.setState({
-      taskEditing: taskEditing
-    });
-    this.onShowForm();
-  }
-
-  onFilter = (filterName, filterStatus) => {
-    filterStatus = parseInt(filterStatus, 10);
-    this.setState({
-      filters: {
-        name: filterName.toLowerCase(),
-        status: filterStatus
-      }
-    })
-  }
-
-  onSearch = (keyword) => {
-    this.setState({
-      keyword: keyword
-    })
   }
 
   onSort = (sortBy, sortValue) => {
@@ -71,29 +22,24 @@ class App extends Component {
     })
   }
 
-  render() {
-    var { taskEditing, filters, keyword, sortBy, sortValue } = this.state;
-    var { isDisplayForm } = this.props;
-    // if (filters) {
-    //   if (filters.name) {
-    //     tasks = tasks.filter((task) => {
-    //       return task.name.toLowerCase().indexOf(filters.name) !== -1;
-    //     });
-    //   }
-    //   tasks = tasks.filter((task) => {
-    //     if (filters.status === -1) {
-    //       return task;
-    //     } else {
-    //       return task.status === (filters.status === 1 ? true : false)
-    //     }
-    //   })
-    // }
-    // if (keyword) {
-    //   tasks = tasks.filter((task) => {
-    //     return task.name.toLowerCase().indexOf(keyword) !== -1;
-    //   });
+  onToggleForm = () => {
+    var { itemEditing } = this.props;
+    if (itemEditing && itemEditing.id !== '') {
+      this.props.onOpenForm();
+    } else {
+      this.props.onToggleForm();
+    }
+    this.props.onClearTask({
+      id: '',
+      name: '',
+      status: false
+    });
+  }
 
-    // }
+  render() {
+    var { sortBy, sortValue } = this.state;
+    var { isDisplayForm } = this.props;
+
 
 
     // if (sortBy === "name") {
@@ -118,25 +64,21 @@ class App extends Component {
         </div>
         <div className="row">
           {/* Form */}
-          <TaskForm task={taskEditing} />
+          <TaskForm />
 
           <div className={isDisplayForm ? "col-xs-8 col-sm-8 col-md-8 col-lg-8" : "col-xs-12 col-sm-12 col-md-12 col-lg-12"}>
-            <button type="button" className="btn btn-primary" onClick={this.props.onToggleForm}>
+            <button type="button" className="btn btn-primary" onClick={this.onToggleForm}>
               <span className="fa fa-plus mr-5"></span>Thêm công việc
                         </button>
             {/* Search & sort */}
             <TaskControl
-              onSearch={this.onSearch}
               onSort={this.onSort}
               sortBy={sortBy}
               sortValue={sortValue}
             />
 
             {/* List */}
-            <TaskList
-              // tasks={tasks}
-              onFilter={this.onFilter}
-            />
+            <TaskList />
           </div>
         </div>
       </div>
@@ -145,7 +87,8 @@ class App extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    isDisplayForm: state.isDisplayForm
+    isDisplayForm: state.isDisplayForm,
+    itemEditing: state.itemEditing
   }
 }
 const mapDispatchToProps = (dispatch, props) => {
@@ -156,7 +99,12 @@ const mapDispatchToProps = (dispatch, props) => {
     onCloseForm: () => {
       dispatch(actions.closeForm())
     },
-
+    onClearTask: (task) => {
+      dispatch(actions.editTask(task))
+    },
+    onOpenForm: () => {
+      dispatch(actions.openForm())
+    }
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
