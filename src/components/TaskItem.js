@@ -11,7 +11,8 @@ class TaskItem extends Component {
         this.props.onCloseForm();
     }
     onUpdate = () => {
-        this.props.onEditTask();
+        this.props.onOpenForm();
+        this.props.onEditTask(this.props.task);
     }
     showStatusElement() {
         return (
@@ -59,6 +60,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onCloseForm: () => {
             dispatch(actions.closeForm())
+        },
+        onOpenForm:()=>{
+            dispatch(actions.openForm());
         },
         onEditTask:(task)=>{
             dispatch(actions.editTask(task))

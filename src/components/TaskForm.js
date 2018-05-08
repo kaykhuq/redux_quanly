@@ -35,7 +35,7 @@ class TaskForm extends Component {
             })
             // console.log("them");
         }
-        // console.log(nextProps);
+        console.log(nextProps);
     }
 
     onChange = (e) => {
