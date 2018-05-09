@@ -27,7 +27,7 @@ class TaskList extends Component {
         });
     }
     render() {
-        var { tasks, filterTable, keyword } = this.props;
+        var { tasks, filterTable, keyword, sort } = this.props;
 
         // filter on table
         if (filterTable) {
@@ -45,13 +45,26 @@ class TaskList extends Component {
             })
         };
 
-
         // search on table 
         tasks = tasks.filter((task) => {
             return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
         });
 
-        // console.log('keyword:'+this.props.keyword);
+        // sort on table 
+        if (sort.by === "name") {
+            tasks.sort((a, b) => {
+                if (a.name.toLowerCase() > b.name.toLowerCase()) return sort.value;
+                else if (a.name.toLowerCase() < b.name.toLowerCase()) return -sort.value;
+                return 0;
+            });
+        }
+        else {
+            tasks.sort((a, b) => {
+                if (a.status > b.status) return -sort.value;
+                else if (a.status < b.status) return sort.value;
+                return 0;
+            });
+        }
 
         var elemTask = tasks.map((task, index) => {
             return <TaskItem key={task.id} task={task} index={index} />
@@ -107,7 +120,8 @@ const mapStateToProps = (state) => {
     return {
         tasks: state.tasks,
         filterTable: state.filterTable,
-        keyword: state.search
+        keyword: state.search,
+        sort:state.sort
     }
 }
 const mapDispatchToProps = (dispatch, props) => {

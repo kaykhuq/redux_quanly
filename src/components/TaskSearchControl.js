@@ -21,12 +21,7 @@ class TaskSearchControl extends Component {
     render() {
         var { keyword } = this.state;
 
-        // if (keyword) {
-        //   tasks = tasks.filter((task) => {
-        //     return task.name.toLowerCase().indexOf(keyword) !== -1;
-        //   });
-
-        // }
+        
 
         return (
             <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
