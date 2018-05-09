@@ -24,14 +24,14 @@ var myReducer = (state = initialState, action) => {
             var task = {
                 id: action.task.id,
                 name: action.task.name,
-                status: action.task.status === 'true' ? true : false
+                status: (action.task.status === 'true' || action.task.status === true) ? true : false
             }
             if (!task.id) {
                 task.id = randomstring.generate();
                 state.push(task);
-            }else{
+            } else {
                 index = findIndex(state, task.id);
-                state[index]=task;
+                state[index] = task;
             }
             localStorage.setItem('tasks', JSON.stringify(state));
             return [...state];
